@@ -1,0 +1,76 @@
+{
+	"common": {
+		"name": "oekofenjson",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "oekofenjson",
+		"titleLang": {
+			"en": "oekofenjson",
+			"de": "oekofenjson",
+			"ru": "Oekofenjson",
+			"pt": "Oekofenjson",
+			"nl": "oekofenjson",
+			"fr": "oekofenjson",
+			"it": "oekofenjson",
+			"es": "oekofenjson",
+			"pl": "oekofenjson",
+			"zh-cn": "oekofenjson"
+		},
+		"desc": {
+			"en": "oekofenjson",
+			"de": "oekofenjson",
+			"ru": "Oekofenjson",
+			"pt": "Oekofenjson",
+			"nl": "oekofenjson",
+			"fr": "oekofenjson",
+			"it": "oekofenjson",
+			"es": "oekofenjson",
+			"pl": "oekofenjson",
+			"zh-cn": "oekofenjson"
+		},
+		"authors": [
+			"Arne Gattermann <github@gattermann.org>"
+		],
+		"keywords": [
+			"oekofen"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "oekofenjson.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/gttrmnn/ioBroker.oekofenjson/master/admin/oekofenjson.png",
+		"readme": "https://github.com/gttrmnn/ioBroker.oekofenjson/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "climate-control",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "poll",
+		"materialize": true,
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": []
+}

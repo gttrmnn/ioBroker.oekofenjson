@@ -1,0 +1,36 @@
+{
+	"cli": true,
+	"adapterName": "oekofenjson",
+	"title": "oekofenjson",
+	"keywords": [
+		"oekofen"
+	],
+	"expert": "no",
+	"features": [
+		"adapter"
+	],
+	"adminFeatures": [],
+	"type": "climate-control",
+	"startMode": "daemon",
+	"connectionType": "cloud",
+	"dataSource": "poll",
+	"connectionIndicator": "no",
+	"language": "JavaScript",
+	"adminReact": "no",
+	"tools": [
+		"ESLint",
+		"type checking"
+	],
+	"indentation": "Tab",
+	"quotes": "double",
+	"es6class": "yes",
+	"authorName": "Arne Gattermann",
+	"authorGithub": "gttrmnn",
+	"authorEmail": "github@gattermann.org",
+	"gitRemoteProtocol": "HTTPS",
+	"gitCommit": "no",
+	"license": "MIT License",
+	"ci": "gh-actions",
+	"dependabot": "no",
+	"creatorVersion": "1.32.0"
+}

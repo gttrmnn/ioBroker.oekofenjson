@@ -1,0 +1,77 @@
+{
+	"common": {
+		"name": "oekofen",
+		"version": "0.0.2",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "oekofen",
+		"titleLang": {
+			"en": "oekofen",
+			"de": "oekofen",
+			"ru": "экофен",
+			"pt": "Oekofen",
+			"nl": "oekofen",
+			"fr": "oekofen",
+			"it": "oekofen",
+			"es": "oekofen",
+			"pl": "oekofen",
+			"zh-cn": "奥科芬"
+		},
+		"desc": {
+			"en": "oekofen",
+			"de": "oekofen",
+			"ru": "экофен",
+			"pt": "Oekofen",
+			"nl": "oekofen",
+			"fr": "oekofen",
+			"it": "oekofen",
+			"es": "oekofen",
+			"pl": "oekofen",
+			"zh-cn": "奥科芬"
+		},
+		"authors": [
+			"Arne Gattermann <github@gattermann.org>"
+		],
+		"keywords": [
+			"oekofen"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "build/main.js",
+		"icon": "oekofen.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/gttrmnn/ioBroker.oekofen/master/admin/oekofen.png",
+		"readme": "https://github.com/gttrmnn/ioBroker.oekofen/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "schedule",
+		"schedule": "* * * * *",
+		"type": "climate-control",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "poll",
+		"materialize": true,
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": []
+}
