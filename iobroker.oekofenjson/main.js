@@ -7,6 +7,7 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
+const request = require("request");
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -36,8 +37,25 @@ class Oekofenjson extends utils.Adapter {
 
 		// The adapters config (in the instance object everything under the attribute "native") is accessible via
 		// this.config:
-		this.log.info("config option1: " + this.config.option1);
-		this.log.info("config option2: " + this.config.option2);
+		
+		var oekofenUrl = this.config.oekofenUrl;
+		
+		this.log.info("Oekofen URL: " + oekofenUrl);
+
+
+		request(
+		{
+			url,
+			json: true
+		},
+		function(error, response, content) {
+			if (!error) {
+				this.log.info(content);
+			} else {
+				this.log.error(error);
+			}
+		}
+
 
 		/*
 		For every state in the system there has to be also an object of type state
@@ -83,6 +101,9 @@ class Oekofenjson extends utils.Adapter {
 
 		result = await this.checkGroupAsync("admin", "admin");
 		this.log.info("check group user admin group admin: " + result);
+	
+		this.stop;
+	
 	}
 
 	/**
