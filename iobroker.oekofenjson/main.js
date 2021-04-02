@@ -7,7 +7,7 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
-const request = require("request");
+const axios = require("axios");
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -37,24 +37,163 @@ class Oekofenjson extends utils.Adapter {
 
 		// The adapters config (in the instance object everything under the attribute "native") is accessible via
 		// this.config:
-		
-		var oekofenUrl = this.config.oekofenUrl;
-		
+	
+		const host = this.config.host;
+		const port = this.config.port;
+		const password = this.config.password;
+		const device = this.config.device;
+
+		const oekofenUrl = 'http://' + host + ':' + port + '/' + password + '/' + device
+
 		this.log.info("Oekofen URL: " + oekofenUrl);
 
+		axios({
+			method: 'get',
+			url: oekofenUrl	,
+			timeout: 10000,
+			responseType: 'json'
+		}).then(
+			async (response) => {
+				const content = response.data;
 
-		request(
-		{
-			url,
-			json: true
-		},
-		function(error, response, content) {
-			if (!error) {
-				this.log.info(content);
-			} else {
-				this.log.error(error);
+				this.log.info('request done');
+				this.log.info('received data (' + response.status + '): ' + JSON.stringify(content));
+
+				await this.setObjectNotExistsAsync('responseCode', {
+					type: 'state',
+					common: {
+						name: 'responseCode',
+						type: 'number',
+						role: 'value',
+						read: true,
+						write: false
+					},
+					native: {}
+				});
+				this.setState('responseCode', {val: response.status, ack: true});
+
+				if (content && Object.prototype.hasOwnProperty.call(content, 'pe1')) {
+					this.log.info('pe1 found')
+
+			
+					this.log.info('content.L_temp_act='+content.pe1.L_temp_act);
+					this.log.info('content.L_temp_set='+content.pe1.L_temp_set); 
+
+
+					//this.setState("Oekofen.System.Aussentemperatur", parseFloat((content.system.L_ambient * 0.1).toFixed(1)));
+ 					// 	let unit = null;
+					// 	let role = 'value';
+
+					//unit = '°C';
+					//role = 'value.temperature'
+
+					await this.setObjectNotExistsAsync('Oekofen.System.Aussentemperatur', {
+							type: 'state',
+							common: {
+								name: 'Oekofen.System.Aussentemperatur',
+								type: 'number',
+								role: 'value.temperature',
+								unit: '°C',
+								read: true,
+								write: false
+							},
+							native: {}
+						});
+						this.setState('Oekofen.System.Aussentemperatur', {val: parseFloat((content.system.L_ambient * 0.1).toFixed(1)), ack: true});
+
+
+					// for (obj in content.pe1) {
+
+					// 	this.log.info('obj=' + obj)
+						
+					// 	// await this.setObjectNotExistsAsync(obj.L_temp_act, {
+					// 	// 	type: "state",
+					// 	// 	common: {
+					// 	// 		name: "testVariable",
+					// 	// 		type: "boolean",
+					// 	// 		role: "indicator",
+					// 	// 		read: true,
+					// 	// 		write: true,
+					// 	// 	},
+					// 	// 	native: {},
+					// 	// });
+				
+					// 	// this.subscribeStates("testVariable");
+					// 	// await this.setStateAsync("testVariable", true);
+				
+					// }
+
+
+					// for (const key in content.datavalues) {
+					// 	const obj = content.datavalues[key];
+
+					// 	this.log.info(obj);
+
+					// 	let unit = null;
+					// 	let role = 'value';
+
+					// 	//if (obj.value)
+
+					// 	if (obj.value_type.indexOf('L_temp_act') >= 0) {
+					// 		this.log.info('L_statetext found')
+					// 		unit = '°C';
+					// 		role = 'value.temperature'
+					// 	} else if (obj.value_type.indexOf('SDS_') >= 0) {
+					// 		unit = 'µg/m³';
+					// 		role = 'value.ppm';
+					// 	} else if (obj.value_type.indexOf('temperature') >= 0) {
+					// 		unit = '°C';
+					// 		role = 'value.temperature';
+					// 	} else if (obj.value_type.indexOf('humidity') >= 0) {
+					// 		unit = '%';
+					// 		role = 'value.humidity';
+					// 	} else if (obj.value_type.indexOf('pressure') >= 0) {
+					// 		unit = 'Pa';
+					// 		role = 'value.pressure';
+					// 	} else if (obj.value_type.indexOf('noise') >= 0) {
+					// 		unit = 'dB(A)';
+					// 		role = 'value';
+					// 	} else if (Object.prototype.hasOwnProperty.call(unitList, obj.value_type)) {
+					// 		unit = unitList[obj.value_type];
+					// 		role = roleList[obj.value_type];
+					// 	}
+
+					// 	await this.setObjectNotExistsAsync(obj.value_type, {
+					// 		type: 'state',
+					// 		common: {
+					// 			name: obj.value_type,
+					// 			type: 'number',
+					// 			role: role,
+					// 			unit: unit,
+					// 			read: true,
+					// 			write: false
+					// 		},
+					// 		native: {}
+					// 	});
+					// 	this.setState(obj.value_type, {val: parseFloat(obj.value), ack: true});
+					//}
+				} else {
+					this.log.warn('Response has no valid content. Check Config and try again.');
+				}
+
 			}
-		}
+		).catch(
+			(error) => {
+				if (error.response) {
+					// The request was made and the server responded with a status code
+
+					this.log.warn('received error ' + error.response.status + ' response from ' + oekofenUrl + ' with content: ' + JSON.stringify(error.response.data));
+				} else if (error.request) {
+					// The request was made but no response was received
+					// `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+					// http.ClientRequest in node.js<div></div>
+					this.log.error(error.message);
+				} else {
+					// Something happened in setting up the request that triggered an Error
+					this.log.error(error.message);
+				}
+			}
+		);
 
 
 		/*
@@ -101,9 +240,9 @@ class Oekofenjson extends utils.Adapter {
 
 		result = await this.checkGroupAsync("admin", "admin");
 		this.log.info("check group user admin group admin: " + result);
-	
-		this.stop;
-	
+
+        this.killTimeout = setTimeout(this.stop.bind(this), 15000);
+
 	}
 
 	/**

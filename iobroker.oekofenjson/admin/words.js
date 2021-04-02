@@ -6,8 +6,20 @@ systemDictionary = {
 		"en": "Adapter settings for oekofenjson",
 		"de": "Adaptereinstellungen für oekofenjson",
 	},
-	"oekofenUrl": {
-		"en": "Oekofen Url",
-		"de": "Oekofen Url",
+	"host": {
+		"en": "Hostname or IP-Adress",
+		"de": "Hostname oder IP-Adresse",
+	},
+	"port": {
+		"en": "JSON Port",
+		"de": "JSON Port",
+	},
+	"password": {
+		"en": "JSON Password",
+		"de": "JSON Passwort",
+	},
+	"device": {
+		"en": "Device",
+		"de": "Gerät",
 	},
 };
